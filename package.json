@@ -1,0 +1,31 @@
+{
+  "name": "markdown-lint",
+  "version": "1.0.0",
+  "description": "Lint markdown files. Check links, headings, and style. Zero dependencies.",
+  "type": "module",
+  "bin": {
+    "markdown-lint": "./index.js",
+    "mdlint": "./index.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "developer-tools",
+    "cli",
+    "nodejs",
+    "zero-dependencies",
+    "markdown",
+    "linting",
+    "links"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NickCirv/markdown-lint.git"
+  },
+  "homepage": "https://github.com/NickCirv/markdown-lint#readme",
+  "bugs": {
+    "url": "https://github.com/NickCirv/markdown-lint/issues"
+  }
+}
