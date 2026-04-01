@@ -1,3 +1,5 @@
+![Banner](banner.svg)
+
 # markdown-lint
 
 > Lint markdown files. Check links, headings, and style. Zero dependencies.
