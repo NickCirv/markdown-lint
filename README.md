@@ -1,120 +1,50 @@
-![Banner](banner.svg)
+<div align="center">
 
 # markdown-lint
 
-> Lint markdown files. Check links, headings, and style. Zero dependencies.
+**Catch broken links, heading structure errors, and style issues in your Markdown — zero dependencies.**
 
-[![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen)](https://nodejs.org)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Zero Dependencies](https://img.shields.io/badge/dependencies-0-blue)](package.json)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?labelColor=0B0A09)](LICENSE)
+[![Dependencies: 0](https://img.shields.io/badge/dependencies-0-brightgreen?labelColor=0B0A09)](package.json)
+[![Node: >=18](https://img.shields.io/badge/node-%3E%3D18-blue?labelColor=0B0A09)](https://nodejs.org)
+
+</div>
 
 ## Install
 
 ```bash
-# Run without installing
-npx markdown-lint README.md
-
-# Install globally
-npm install -g markdown-lint
+npx github:NickCirv/markdown-lint README.md
 ```
 
-## Quick Start
+## Usage
 
+```bash
+# Lint a file
+npx github:NickCirv/markdown-lint README.md
+
+# Lint a directory, auto-fix what can be fixed
+npx github:NickCirv/markdown-lint --fix docs/
+
+# GitHub Actions annotation output + verify all links
+npx github:NickCirv/markdown-lint --format github --check-links **/*.md
 ```
-$ mdlint README.md
-pass  README.md
-
-$ mdlint docs/
-docs/guide.md
-     3:1    error    Heading level skipped: h1 to h3  MD001
-    12:45   error    Trailing spaces  MD009 [fixable]
-    24:1    warning  Inline HTML detected  MD033
-
-2 errors, 1 warning across 1 file
-
-$ mdlint --fix docs/guide.md
-Fixed: docs/guide.md
-
-$ mdlint --check-links --format github README.md
-::error file=README.md,line=0,col=1::LINK: Broken link (404): https://example.com/gone
-```
-
-## Options
 
 | Flag | Description |
 |------|-------------|
-| `--fix` | Auto-fix fixable issues (trailing spaces, blank lines, bare URLs) |
-| `--check-links` | Verify all URLs return 2xx (async, with 8s timeout) |
-| `--format text\|json\|github` | Output format. `github` emits `::error file=...,line=...::` |
-| `--ignore <pattern>` | Skip matching files (e.g. `node_modules`, `docs/legacy`) |
+| `--fix` | Auto-fix trailing spaces, consecutive blank lines, bare URLs |
+| `--check-links` | Verify all URLs return 2xx (8s timeout, follows redirects) |
+| `--format text\|json\|github` | Output format — `github` emits `::error file=…,line=…::` annotations |
+| `--ignore <pattern>` | Skip files matching pattern (e.g. `node_modules`, `vendor`) |
 | `-v, --version` | Show version |
 | `-h, --help` | Show help |
 
-## Rules
+## What it does
 
-| Rule | Description | Severity | Auto-fix |
-|------|-------------|----------|----------|
-| MD001 | Heading levels must increment by 1 | error | - |
-| MD002 | First heading must be h1 | error | - |
-| MD003 | Consistent heading style (ATX vs setext) | error | - |
-| MD004 | Consistent list marker (`-` vs `*` vs `+`) | error | - |
-| MD009 | No trailing spaces | error | yes |
-| MD010 | No hard tabs | error | - |
-| MD012 | No multiple consecutive blank lines | error | yes |
-| MD013 | Line length <= 120 chars (configurable) | warning | - |
-| MD022 | Blank lines around headings | error | - |
-| MD025 | Only one h1 per document | error | - |
-| MD031 | Blank lines around fenced code blocks | error | - |
-| MD032 | Lists surrounded by blank lines | error | - |
-| MD033 | No inline HTML | warning | - |
-| MD034 | No bare URLs | error | yes |
-| MD041 | First line should be a heading | error | - |
-| LINK | HTTP 4xx/5xx URLs (with `--check-links`) | error/warning | - |
-
-## Config
-
-Create `.mdlintrc.json` in your project root to override rules:
+Checks 15 rules covering heading structure (MD001–MD003, MD022, MD025), list consistency (MD004, MD032), whitespace hygiene (MD009, MD010, MD012), line length (MD013), and link validity (LINK). Rules can be overridden per-project via `.mdlintrc.json`. Exits `0` when clean, `1` on errors — CI-safe by default.
 
 ```json
-{
-  "MD013": { "enabled": true, "line_length": 80 },
-  "MD033": false,
-  "MD041": false
-}
-```
-
-## Exit Codes
-
-| Code | Meaning |
-|------|---------|
-| `0` | No errors found (CI-safe) |
-| `1` | One or more errors found |
-
-## Examples
-
-```bash
-# Lint a single file
-mdlint README.md
-
-# Lint all markdown in a directory
-mdlint docs/
-
-# Auto-fix and then lint
-mdlint --fix README.md && mdlint README.md
-
-# CI/CD — GitHub Actions annotation format
-mdlint --format github **/*.md
-
-# Skip node_modules and vendor directories
-mdlint . --ignore node_modules --ignore vendor
-
-# JSON output for tooling integration
-mdlint --format json docs/ | jq '.[] | select(.errors > 0)'
-
-# Full check: lint + verify all links
-mdlint --check-links README.md
+{ "MD013": { "enabled": true, "line_length": 80 }, "MD033": false }
 ```
 
 ---
-
-Built with Node.js · Zero dependencies · MIT License
+<sub>Zero dependencies · Node >=18 · MIT · by <a href="https://github.com/NickCirv">NickCirv</a></sub>
